@@ -33,7 +33,7 @@ function App() {
 	const fetchLocationsByDistrict = (district_id, date, ageRestriction) => {
 		setIsSearching(true);
 		toast({
-			title: `Sit tight, you will hear a celebratory soundtrack soon!`,
+			title: `Sit tight, you will hear a celebratory soundtrack soon!, Ususally takes around 15-20 minutes.`,
 			status: 'info',
 			isClosable: true,
 		});
@@ -42,6 +42,7 @@ function App() {
 				const { data } = await axios.get(
 					`https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/findByDistrict?district_id=${district_id}&date=${date}`
 				);
+
 				if (data.sessions.length > 0) {
 					if (
 						ageRestriction !== 'Any' &&
@@ -100,8 +101,9 @@ function App() {
 				{sessions.length !== 0 && (
 					<Alert status='info' marginTop={5}>
 						<AlertIcon />
+						Hurry! Book now on the Aarogya Setu App!
 						It can be hard to find a free slot. If you weren't able
-						to. Please click on search to try again!
+						to. Please click on search to try again! Seats available can be indicative of your chances to snag one.
 					</Alert>
 				)}
 			</Container>

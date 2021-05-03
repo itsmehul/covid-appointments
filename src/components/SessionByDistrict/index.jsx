@@ -52,7 +52,7 @@ const SessionByDistrict = ({
 				{name}
 			</Heading>
 			<Divider />
-			<Data label='Available Capacity' value={available_capacity} />
+			<Data label='Seats available' value={available_capacity} />
 			<Data label='Max age limit' value={min_age_limit} />
 			<Data label='Vaccine' value={vaccine} />
 			<Data
