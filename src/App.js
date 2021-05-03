@@ -32,6 +32,11 @@ function App() {
 
 	const fetchLocationsByDistrict = (district_id, date, ageRestriction) => {
 		setIsSearching(true);
+		toast({
+			title: `Sit tight, you will hear a celebratory soundtrack soon!`,
+			status: 'info',
+			isClosable: true,
+		});
 		var intervalId = setInterval(async () => {
 			try {
 				const { data } = await axios.get(
