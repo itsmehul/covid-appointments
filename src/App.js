@@ -47,7 +47,7 @@ function App() {
 
 	return (
 		<ChakraProvider>
-			<Container maxW='container.md' paddingTop={10}>
+			<Container maxW='container.md' paddingTop={10} minHeight='100vh'>
 				<SearchByDistrict
 					fetchLocationsByDistrict={fetchLocationsByDistrict}
 					isSearching={isSearching}
