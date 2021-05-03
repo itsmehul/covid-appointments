@@ -1,7 +1,7 @@
 import {
+	Alert,
+	AlertIcon,
 	Box,
-
-
 	Container,
 	Divider,
 	Flex,
@@ -9,7 +9,8 @@ import {
 	IconButton,
 	Link,
 	useColorMode,
-	useColorModeValue
+	useColorModeValue,
+	useToast,
 } from '@chakra-ui/react';
 import axios from 'axios';
 import { useState } from 'react';
@@ -25,13 +26,14 @@ function App() {
 	const [sessions, setSessions] = useState([]);
 	const [isSearching, setIsSearching] = useState(false);
 	const { toggleColorMode } = useColorMode();
+	const toast = useToast();
 	const text = useColorModeValue('dark', 'light');
 	const SwitchIcon = useColorModeValue(FaMoon, FaSun);
 
 	const fetchLocationsByDistrict = (district_id, date, ageRestriction) => {
+		setIsSearching(true);
 		var intervalId = setInterval(async () => {
 			try {
-				setIsSearching(true);
 				const { data } = await axios.get(
 					`https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/findByDistrict?district_id=${district_id}&date=${date}`
 				);
@@ -47,12 +49,22 @@ function App() {
 						clearInterval(intervalId);
 						setIsSearching(false);
 						setSessions(data.sessions);
+						toast({
+							title: `Session found!`,
+							status: 'success',
+							isClosable: true,
+						});
 					}
 					if (ageRestriction === 'Any') {
 						audio.play();
 						clearInterval(intervalId);
 						setIsSearching(false);
 						setSessions(data.sessions);
+						toast({
+							title: `Session found!`,
+							status: 'success',
+							isClosable: true,
+						});
 					}
 				}
 			} catch (error) {
@@ -80,6 +92,13 @@ function App() {
 					fetchLocationsByDistrict={fetchLocationsByDistrict}
 					isSearching={isSearching}
 				/>
+				{sessions.length !== 0 && (
+					<Alert status='info' marginTop={5}>
+						<AlertIcon />
+						It can be hard to find a free slot. If you weren't able
+						to. Please click on search to try again!
+					</Alert>
+				)}
 			</Container>
 			<Grid
 				templateColumns='repeat(auto-fit, minmax(300px,350px))'

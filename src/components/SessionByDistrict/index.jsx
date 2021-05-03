@@ -26,10 +26,7 @@ const Data = ({ label, value }) => {
 
 const SessionByDistrict = ({
 	name,
-	state_name,
 	district_name,
-	from,
-	to,
 	fee_type,
 	fee,
 	date,
