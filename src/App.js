@@ -1,6 +1,19 @@
-import { ChakraProvider, Container, Divider, Flex, Grid, Link } from '@chakra-ui/react';
+import {
+	Box,
+
+
+	Container,
+	Divider,
+	Flex,
+	Grid,
+	IconButton,
+	Link,
+	useColorMode,
+	useColorModeValue
+} from '@chakra-ui/react';
 import axios from 'axios';
 import { useState } from 'react';
+import { FaMoon, FaSun } from 'react-icons/fa';
 import './App.css';
 import m3 from './assets/notification-tone.mp3';
 import SearchByDistrict from './components/SearchByDistrict';
@@ -11,9 +24,12 @@ let audio = new Audio(m3);
 function App() {
 	const [sessions, setSessions] = useState([]);
 	const [isSearching, setIsSearching] = useState(false);
+	const { toggleColorMode } = useColorMode();
+	const text = useColorModeValue('dark', 'light');
+	const SwitchIcon = useColorModeValue(FaMoon, FaSun);
 
 	const fetchLocationsByDistrict = (district_id, date, ageRestriction) => {
-		var intervalId = setInterval(async ()=>{
+		var intervalId = setInterval(async () => {
 			try {
 				setIsSearching(true);
 				const { data } = await axios.get(
@@ -46,7 +62,19 @@ function App() {
 	};
 
 	return (
-		<ChakraProvider>
+		<Box>
+			<Flex justify='flex-end'>
+				<IconButton
+					size='md'
+					fontSize='lg'
+					variant='ghost'
+					color='current'
+					marginLeft='2'
+					onClick={toggleColorMode}
+					icon={<SwitchIcon />}
+					aria-label={`Switch to ${text} mode`}
+				/>
+			</Flex>
 			<Container maxW='container.md' paddingTop={10}>
 				<SearchByDistrict
 					fetchLocationsByDistrict={fetchLocationsByDistrict}
@@ -67,10 +95,12 @@ function App() {
 					</>
 				))}
 			</Grid>
-			<Flex justify="center" padding={5}>
-			<Link href="https://itsmehul.github.io" isExternal>Made with ♥ by Mehul</Link>
+			<Flex justify='center' padding={5}>
+				<Link href='https://itsmehul.github.io' isExternal>
+					Made with ♥ by Mehul
+				</Link>
 			</Flex>
-		</ChakraProvider>
+		</Box>
 	);
 }
 
