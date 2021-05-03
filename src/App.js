@@ -33,7 +33,7 @@ function App() {
 	const fetchLocationsByDistrict = (district_id, date, ageRestriction) => {
 		setIsSearching(true);
 		toast({
-			title: `Sit tight, you will hear a celebratory soundtrack soon!, Ususally takes around 15-20 minutes.`,
+			title: `Sit tight, you will hear a celebratory soundtrack soon!, Usually takes around 15-20 minutes.`,
 			status: 'info',
 			isClosable: true,
 		});

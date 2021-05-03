@@ -7,7 +7,7 @@ import { format, startOfTomorrow } from 'date-fns';
 import React, { useState } from 'react';
 import { districts } from '../../districts_list.json';
 
-const SearchByDistrict = ({ fetchLocationsByDistrict,isSearching }) => {
+const SearchByDistrict = ({ fetchLocationsByDistrict, isSearching }) => {
 	const toast = useToast();
 	const [districtName, setDistrictName] = useState('');
 	const [ageRestriction, setAgeRestriction] = useState('Any');
@@ -59,7 +59,10 @@ const SearchByDistrict = ({ fetchLocationsByDistrict,isSearching }) => {
 					))}
 				</datalist>
 				<label>Age Restriction</label>
-				<RadioGroup defaultValue='Any' onChange={e=>setAgeRestriction(e)}>
+				<RadioGroup
+					defaultValue='Any'
+					onChange={(e) => setAgeRestriction(e)}
+				>
 					<Stack spacing={5} direction='row'>
 						<Radio colorScheme='green' value='18'>
 							18+
@@ -69,11 +72,13 @@ const SearchByDistrict = ({ fetchLocationsByDistrict,isSearching }) => {
 						</Radio>
 					</Stack>
 				</RadioGroup>
-				<Button 
-				loadingText='Searching, keep tab open'
-				isLoading={isSearching}
-				onClick={submitRequest}>
-					Search for sessions for tomorrow
+				<Button
+					loadingText='Searching, keep tab open'
+					isLoading={isSearching}
+					onClick={submitRequest}
+				>
+					Search vaccination sessions for{' '}
+					{format(startOfTomorrow(), 'do MMMM')}
 				</Button>
 			</VStack>
 		</>
