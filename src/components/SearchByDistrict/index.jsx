@@ -84,6 +84,7 @@ const SearchByDistrict = ({ fetchLocationsByDistrict, isSearching }) => {
 					</Stack>
 				</RadioGroup>
 				<Button
+				colorScheme='teal'
 					loadingText='Searching, keep tab open'
 					isLoading={isSearching}
 					onClick={submitRequest}
