@@ -1,9 +1,16 @@
 import { Button } from '@chakra-ui/button';
 import { Input } from '@chakra-ui/input';
-import { Heading, Stack, VStack } from '@chakra-ui/layout';
+import { Heading, Stack, Text, VStack } from '@chakra-ui/layout';
 import { Radio, RadioGroup } from '@chakra-ui/radio';
 import { useToast } from '@chakra-ui/toast';
-import { format, startOfTomorrow } from 'date-fns';
+import {
+	addHours,
+	format,
+	isWithinInterval,
+	startOfToday,
+	startOfTomorrow,
+	startOfYesterday,
+} from 'date-fns';
 import React, { useState } from 'react';
 import { districts } from '../../districts_list.json';
 
@@ -11,6 +18,10 @@ const SearchByDistrict = ({ fetchLocationsByDistrict, isSearching }) => {
 	const toast = useToast();
 	const [districtName, setDistrictName] = useState('');
 	const [ageRestriction, setAgeRestriction] = useState('Any');
+	const isLateAtNight = isWithinInterval(new Date(), {
+		start: addHours(startOfYesterday(), 22),
+		end: addHours(startOfToday(), 5),
+	});
 
 	const submitRequest = () => {
 		let foundDistrict = districts.find(
@@ -77,9 +88,14 @@ const SearchByDistrict = ({ fetchLocationsByDistrict, isSearching }) => {
 					isLoading={isSearching}
 					onClick={submitRequest}
 				>
-					Search vaccination sessions for{' '}
-					{format(startOfTomorrow(), 'do MMMM')}
+					{`Search sessions for
+					${format(startOfTomorrow(), 'do MMMM')}`}
 				</Button>
+				<Text align="center" fontSize="xs">
+					{isLateAtNight
+						? 'Finding vacination slots at night are hard, try in the morning'
+						: 'Usually takes around 15-20 minutes.'}
+				</Text>
 			</VStack>
 		</>
 	);

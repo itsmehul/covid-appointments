@@ -36,6 +36,7 @@ const SessionByDistrict = ({
 	slots,
 }) => {
 	const [day, month, year] = date.split('-');
+	
 	return (
 		<VStack
 			flexWrap='wrap'

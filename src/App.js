@@ -6,16 +6,18 @@ import {
 	Divider,
 	Flex,
 	Grid,
+
 	IconButton,
 	Link,
 	useColorMode,
 	useColorModeValue,
-	useToast,
+	useToast
 } from '@chakra-ui/react';
 import axios from 'axios';
 import { useState } from 'react';
 import { FaMoon, FaSun } from 'react-icons/fa';
 import './App.css';
+import logo from './assets/logo.png';
 import m3 from './assets/notification-tone.mp3';
 import SearchByDistrict from './components/SearchByDistrict';
 import SessionByDistrict from './components/SessionByDistrict';
@@ -32,8 +34,9 @@ function App() {
 
 	const fetchLocationsByDistrict = (district_id, date, ageRestriction) => {
 		setIsSearching(true);
+
 		toast({
-			title: `Sit tight, you will hear a celebratory soundtrack soon!, Usually takes around 15-20 minutes.`,
+			title: `Sit tight, you will hear a celebratory soundtrack soon!`,
 			status: 'info',
 			isClosable: true,
 		});
@@ -93,7 +96,10 @@ function App() {
 					aria-label={`Switch to ${text} mode`}
 				/>
 			</Flex>
-			<Container maxW='container.md' paddingTop={10}>
+			<Flex justify='center'>
+			<img src={logo} width={100} height={100} alt="Vaccination Hunter"/>
+			</Flex>
+			<Container maxW='container.md'>
 				<SearchByDistrict
 					fetchLocationsByDistrict={fetchLocationsByDistrict}
 					isSearching={isSearching}
@@ -101,9 +107,10 @@ function App() {
 				{sessions.length !== 0 && (
 					<Alert status='info' marginTop={5}>
 						<AlertIcon />
-						Hurry! Book now on the Aarogya Setu App!
-						It can be hard to find a free slot. If you weren't able
-						to. Please click on search to try again! Seats available can be indicative of your chances to snag one.
+						Hurry! Book now on the Aarogya Setu App! It can be hard
+						to find a free slot. If you weren't able to. Please
+						click on search to try again! Seats available can be
+						indicative of your chances to snag one.
 					</Alert>
 				)}
 			</Container>
