@@ -95,7 +95,10 @@ const SearchByDistrict = ({ fetchLocationsByDistrict, isSearching }) => {
 				<Text align="center" fontSize="xs">
 					{isLateAtNight
 						? 'Finding vacination slots at night are hard, try in the morning'
-						: 'Usually takes around 15-20 minutes.'}
+						: 'Usually takes around 15-20 minutes., or longer, who knows? Persistence is key.'}
+				</Text>
+				<Text align="center" fontSize="xs">
+					<i>For affirmation you can check out Lakshadweep at 45+</i>
 				</Text>
 			</VStack>
 		</>
