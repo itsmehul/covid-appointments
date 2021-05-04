@@ -43,36 +43,23 @@ function App() {
 				const { data } = await axios.get(
 					`https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/findByDistrict?district_id=${district_id}&date=${date}`
 				);
+				let foundSessions = data.sessions
+				if(ageRestriction!=='Any'){
+				foundSessions = data.sessions.filter(
+					(session) =>
+						String(session.min_age_limit) === ageRestriction
+				)}
 
-				if (data.sessions.length > 0) {
-					if (
-						ageRestriction !== 'Any' &&
-						data.sessions.find(
-							(session) =>
-								String(session.min_age_limit) === ageRestriction
-						)
-					) {
+				if (foundSessions.length > 0) {
 						audio.play();
 						clearInterval(intervalId);
 						setIsSearching(false);
-						setSessions(data.sessions);
+						setSessions(foundSessions);
 						toast({
 							title: `Session found!`,
 							status: 'success',
 							isClosable: true,
 						});
-					}
-					if (ageRestriction === 'Any') {
-						audio.play();
-						clearInterval(intervalId);
-						setIsSearching(false);
-						setSessions(data.sessions);
-						toast({
-							title: `Session found!`,
-							status: 'success',
-							isClosable: true,
-						});
-					}
 				}
 			} catch (error) {
 				console.log('none found');
