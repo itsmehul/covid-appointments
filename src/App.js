@@ -137,6 +137,7 @@ function App() {
 						close the tab you're good. If you're a desktop user then
 						just keep the tab open on the side. Note that you will
 						hear a loud-ish soundtrack when a match is found.
+						Also, you're more likely to find a slot between 5-8.
 					</Alert>
 				)}
 			</Container>
