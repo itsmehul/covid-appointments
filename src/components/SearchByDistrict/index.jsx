@@ -18,9 +18,9 @@ const SearchByDistrict = ({ fetchLocationsByDistrict, isSearching }) => {
 	const toast = useToast();
 	const [districtName, setDistrictName] = useState('');
 	const [ageRestriction, setAgeRestriction] = useState('Any');
-	const isLateAtNight = isWithinInterval(new Date(), {
+	const isDowntime = isWithinInterval(new Date(), {
 		start: addHours(startOfYesterday(), 22),
-		end: addHours(startOfToday(), 5),
+		end: addHours(startOfToday(), 15),
 	});
 
 	const submitRequest = () => {
@@ -93,8 +93,8 @@ const SearchByDistrict = ({ fetchLocationsByDistrict, isSearching }) => {
 					${format(startOfTomorrow(), 'do MMMM')}`}
 				</Button>
 				<Text align="center" fontSize="xs">
-					{isLateAtNight
-						? 'Finding vacination slots at night are hard, try in the morning'
+					{isDowntime
+						? 'Finding vacination slots during these hours in hard, try in the evening!'
 						: 'Usually takes around 15-20 minutes., or longer, who knows? Persistence is key.'}
 				</Text>
 				<Text align="center" fontSize="xs">
