@@ -3,7 +3,7 @@ import {
 	AlertIcon,
 	Box,
 	Container,
-	Divider,
+
 	Flex,
 	Grid,
 
@@ -121,11 +121,8 @@ function App() {
 				justifyContent='center'
 				padding='8'
 			>
-				{sessions.map((session, i) => (
-					<>
-						{i !== 0 && <Divider />}
+				{sessions.map((session) => (
 						<SessionByDistrict {...session} />
-					</>
 				))}
 			</Grid>
 			<Flex justify='center' padding={5}>
