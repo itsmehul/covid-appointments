@@ -9,7 +9,6 @@ import {
 	VStack
 } from '@chakra-ui/layout';
 import { Tag } from '@chakra-ui/tag';
-import { format } from 'date-fns';
 import React from 'react';
 import openInMaps from '../../utils/openInMaps';
 
@@ -35,7 +34,6 @@ const SessionByDistrict = ({
 	vaccine,
 	slots,
 }) => {
-	const [day, month, year] = date.split('-');
 	
 	return (
 		<VStack
@@ -47,7 +45,13 @@ const SessionByDistrict = ({
 			maxWidth='md'
 		>
 			<Heading as='h3' size='xs'>
-				{`${format(new Date(year, month, day), 'do MMMM')} Session in ${district_name}`}
+				{`${new Date(date).toLocaleString(
+					'en',
+					{
+						month:'long',
+						day:'2-digit'
+					}
+				)} Session in ${district_name}`}
 			</Heading>
 			<Heading as='h4' size='sm'>
 				{name}
