@@ -3,15 +3,13 @@ import {
 	AlertIcon,
 	Box,
 	Container,
-
 	Flex,
 	Grid,
-
 	IconButton,
 	Link,
 	useColorMode,
 	useColorModeValue,
-	useToast
+	useToast,
 } from '@chakra-ui/react';
 import axios from 'axios';
 import { useState } from 'react';
@@ -97,7 +95,12 @@ function App() {
 				/>
 			</Flex>
 			<Flex justify='center'>
-			<img src={logo} width={100} height={100} alt="Vaccination Hunter"/>
+				<img
+					src={logo}
+					width={100}
+					height={100}
+					alt='Vaccination Hunter'
+				/>
 			</Flex>
 			<Container maxW='container.md'>
 				<SearchByDistrict
@@ -122,9 +125,21 @@ function App() {
 				padding='8'
 			>
 				{sessions.map((session) => (
-						<SessionByDistrict {...session} />
+					<SessionByDistrict {...session} />
 				))}
 			</Grid>
+			<Container maxW='container.md'>
+				{isSearching && (
+					<Alert status='info' marginTop={5}>
+						<AlertIcon />
+						Free tip! If you're a mobile user. Start your search and
+						carry on with your other apps, as long as you don't
+						close the tab you're good. If you're a desktop user then
+						just keep the tab open on the side. Note that you will
+						hear a loud-ish soundtrack when a match is found.
+					</Alert>
+				)}
+			</Container>
 			<Flex justify='center' padding={5}>
 				<Link href='https://itsmehul.github.io' isExternal>
 					Made with ♥ by Mehul
