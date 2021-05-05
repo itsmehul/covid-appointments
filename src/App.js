@@ -1,8 +1,8 @@
 import {
 	Alert,
 	AlertIcon,
-
 	Box,
+	Button,
 	Container,
 	Flex,
 	Grid,
@@ -13,7 +13,7 @@ import {
 	useColorModeValue,
 	useMediaQuery,
 	useToast,
-	VStack
+	VStack,
 } from '@chakra-ui/react';
 import axios from 'axios';
 import { format, startOfToday } from 'date-fns';
@@ -53,17 +53,25 @@ function App() {
 				// 	`https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/findByDistrict?district_id=${district_id}&date=${format(startOfToday(), 'dd-MM-yyyy')}`
 				// );
 
-				const [{data:tomorrowsData},{data:todaysData}] = await Promise.all([
+				const [
+					{ data: tomorrowsData },
+					{ data: todaysData },
+				] = await Promise.all([
 					axios.get(
 						`https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/findByDistrict?district_id=${district_id}&date=${date}`
 					),
 					axios.get(
-						`https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/findByDistrict?district_id=${district_id}&date=${format(startOfToday(), 'dd-MM-yyyy')}`
-					)
-				])
+						`https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/findByDistrict?district_id=${district_id}&date=${format(
+							startOfToday(),
+							'dd-MM-yyyy'
+						)}`
+					),
+				]);
 
-				
-				let foundSessions = [...tomorrowsData.sessions,...todaysData.sessions];
+				let foundSessions = [
+					...tomorrowsData.sessions,
+					...todaysData.sessions,
+				];
 				if (ageRestriction !== 'Any') {
 					foundSessions = foundSessions.filter(
 						(session) =>
@@ -115,7 +123,7 @@ function App() {
 					fetchLocationsByDistrict={fetchLocationsByDistrict}
 					isSearching={isSearching}
 				/>
-				<Box margin='auto' maxW='md'>
+				<VStack margin='auto' maxW='md'>
 					{sessions.length !== 0 && (
 						<Alert status='info' marginTop={5}>
 							<AlertIcon />
@@ -125,7 +133,18 @@ function App() {
 							can be indicative of your chances to snag one.
 						</Alert>
 					)}
-				</Box>
+					{sessions.length !== 0 && (
+						<Button
+							variant='outline'
+							onClick={() => {
+								audio.pause();
+								audio.src = m3;
+							}}
+						>
+							Stop music
+						</Button>
+					)}
+				</VStack>
 			</Container>
 			<Grid
 				templateColumns='repeat(auto-fit, minmax(300px,350px))'
@@ -135,7 +154,7 @@ function App() {
 				padding='8'
 			>
 				{sessions.map((session) => (
-					<SessionByDistrict {...session} key={session.center_id}/>
+					<SessionByDistrict {...session} key={session.center_id} />
 				))}
 			</Grid>
 			<VStack maxW='md' margin='auto'>
