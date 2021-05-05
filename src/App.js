@@ -145,7 +145,7 @@ function App() {
 					href='https://www.reddit.com/r/CoronavirusIndia/comments/n4odun/hey_i_made_a_website_to_search_for_vaccination/'
 					isExternal
 				>
-					<Tag>Comment on this thread for feature requests</Tag>
+					<Tag>Comment on this thread for feature requests!</Tag>
 				</Link>
 				<Link href='https://itsmehul.github.io' isExternal>
 					Made with ♥ by Mehul
