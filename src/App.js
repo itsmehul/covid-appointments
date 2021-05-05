@@ -1,17 +1,19 @@
 import {
 	Alert,
 	AlertIcon,
+
 	Box,
 	Container,
 	Flex,
 	Grid,
 	IconButton,
 	Link,
+	Tag,
 	useColorMode,
 	useColorModeValue,
 	useMediaQuery,
 	useToast,
-	VStack,
+	VStack
 } from '@chakra-ui/react';
 import axios from 'axios';
 import { useState } from 'react';
@@ -99,15 +101,15 @@ function App() {
 					isSearching={isSearching}
 				/>
 				<Box margin='auto' maxW='md'>
-				{sessions.length !== 0 && (
-					<Alert status='info' marginTop={5}>
-						<AlertIcon />
-						Hurry! Book now on the Aarogya Setu App! It can be hard
-						to find a free slot. If you weren't able to. Please
-						click on search to try again! Seats available can be
-						indicative of your chances to snag one.
-					</Alert>
-				)}
+					{sessions.length !== 0 && (
+						<Alert status='info' marginTop={5}>
+							<AlertIcon />
+							Hurry! Book now on the Aarogya Setu App! It can be
+							hard to find a free slot. If you weren't able to.
+							Please click on search to try again! Seats available
+							can be indicative of your chances to snag one.
+						</Alert>
+					)}
 				</Box>
 			</Container>
 			<Grid
@@ -127,8 +129,8 @@ function App() {
 						<AlertIcon />
 						Awesome! You may switch apps now, just leave this open
 						in the background. You will hear a loud-ish soundtrack
-						when a match is found.
-						You're more likely to find a slot between 5-8.
+						when a match is found. You're more likely to find a slot
+						between 5-8.
 					</Alert>
 				)}
 				{!isMobile && (
@@ -138,11 +140,17 @@ function App() {
 					</Alert>
 				)}
 			</VStack>
-			<Flex justify='center' padding={5}>
+			<VStack justify='center' padding={5}>
+				<Link
+					href='https://www.reddit.com/r/CoronavirusIndia/comments/n4odun/hey_i_made_a_website_to_search_for_vaccination/'
+					isExternal
+				>
+					<Tag>Comment on this thread for feature requests</Tag>
+				</Link>
 				<Link href='https://itsmehul.github.io' isExternal>
 					Made with ♥ by Mehul
 				</Link>
-			</Flex>
+			</VStack>
 		</Box>
 	);
 }
