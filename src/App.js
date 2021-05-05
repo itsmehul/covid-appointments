@@ -16,6 +16,7 @@ import {
 	VStack
 } from '@chakra-ui/react';
 import axios from 'axios';
+import { format, startOfToday } from 'date-fns';
 import { useState } from 'react';
 import { FaMoon, FaSun } from 'react-icons/fa';
 import './App.css';
@@ -45,12 +46,26 @@ function App() {
 		});
 		var intervalId = setInterval(async () => {
 			try {
-				const { data } = await axios.get(
-					`https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/findByDistrict?district_id=${district_id}&date=${date}`
-				);
-				let foundSessions = data.sessions;
+				// const {data:tomorrowsData} = await axios.get(
+				// 	`https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/findByDistrict?district_id=${district_id}&date=${date}`
+				// );
+				// const {data:todaysData} = await axios.get(
+				// 	`https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/findByDistrict?district_id=${district_id}&date=${format(startOfToday(), 'dd-MM-yyyy')}`
+				// );
+
+				const [{data:tomorrowsData},{data:todaysData}] = await Promise.all([
+					axios.get(
+						`https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/findByDistrict?district_id=${district_id}&date=${date}`
+					),
+					axios.get(
+						`https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/findByDistrict?district_id=${district_id}&date=${format(startOfToday(), 'dd-MM-yyyy')}`
+					)
+				])
+
+				
+				let foundSessions = [...tomorrowsData.sessions,...todaysData.sessions];
 				if (ageRestriction !== 'Any') {
-					foundSessions = data.sessions.filter(
+					foundSessions = foundSessions.filter(
 						(session) =>
 							String(session.min_age_limit) === ageRestriction
 					);
@@ -68,7 +83,7 @@ function App() {
 					});
 				}
 			} catch (error) {
-				console.log('none found');
+				console.log(error);
 			}
 		}, 5000);
 	};
@@ -120,7 +135,7 @@ function App() {
 				padding='8'
 			>
 				{sessions.map((session) => (
-					<SessionByDistrict {...session} />
+					<SessionByDistrict {...session} key={session.center_id}/>
 				))}
 			</Grid>
 			<VStack maxW='md' margin='auto'>

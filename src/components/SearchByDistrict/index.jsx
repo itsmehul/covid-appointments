@@ -89,8 +89,7 @@ const SearchByDistrict = ({ fetchLocationsByDistrict, isSearching }) => {
 					isLoading={isSearching}
 					onClick={submitRequest}
 				>
-					{`Search sessions for
-					${format(startOfTomorrow(), 'do MMMM')}`}
+					{`Search sessions for today & tomorrow`}
 				</Button>
 				<Text align="center" fontSize="xs">
 					{isDowntime
