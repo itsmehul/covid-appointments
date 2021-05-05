@@ -13,10 +13,16 @@ import {
 	useColorModeValue,
 	useMediaQuery,
 	useToast,
-	VStack,
+	VStack
 } from '@chakra-ui/react';
 import axios from 'axios';
-import { format, startOfToday } from 'date-fns';
+import {
+	addHours,
+	endOfToday,
+	format,
+	isWithinInterval,
+	startOfToday
+} from 'date-fns';
 import { useState } from 'react';
 import { FaMoon, FaSun } from 'react-icons/fa';
 import './App.css';
@@ -36,6 +42,11 @@ function App() {
 	const SwitchIcon = useColorModeValue(FaMoon, FaSun);
 	const [isMobile] = useMediaQuery('(max-width: 460px)');
 
+	const isTonight = isWithinInterval(new Date(), {
+		start: addHours(startOfToday(), 20),
+		end: endOfToday(),
+	});
+
 	const fetchLocationsByDistrict = (district_id, date, ageRestriction) => {
 		setIsSearching(true);
 
@@ -53,6 +64,8 @@ function App() {
 				// 	`https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/findByDistrict?district_id=${district_id}&date=${format(startOfToday(), 'dd-MM-yyyy')}`
 				// );
 
+				
+
 				const [
 					{ data: tomorrowsData },
 					{ data: todaysData },
@@ -60,12 +73,13 @@ function App() {
 					axios.get(
 						`https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/findByDistrict?district_id=${district_id}&date=${date}`
 					),
-					axios.get(
-						`https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/findByDistrict?district_id=${district_id}&date=${format(
-							startOfToday(),
-							'dd-MM-yyyy'
-						)}`
-					),
+					!isTonight &&
+						axios.get(
+							`https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/findByDistrict?district_id=${district_id}&date=${format(
+								startOfToday(),
+								'dd-MM-yyyy'
+							)}`
+						),
 				]);
 
 				let foundSessions = [
@@ -122,6 +136,7 @@ function App() {
 				<SearchByDistrict
 					fetchLocationsByDistrict={fetchLocationsByDistrict}
 					isSearching={isSearching}
+					isTonight
 				/>
 				<VStack margin='auto' maxW='md'>
 					{sessions.length !== 0 && (

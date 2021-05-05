@@ -14,7 +14,11 @@ import {
 import React, { useState } from 'react';
 import { districts } from '../../districts_list.json';
 
-const SearchByDistrict = ({ fetchLocationsByDistrict, isSearching }) => {
+const SearchByDistrict = ({
+	fetchLocationsByDistrict,
+	isSearching,
+	isTonight,
+}) => {
 	const toast = useToast();
 	const [districtName, setDistrictName] = useState('');
 	const [ageRestriction, setAgeRestriction] = useState('Any');
@@ -84,19 +88,21 @@ const SearchByDistrict = ({ fetchLocationsByDistrict, isSearching }) => {
 					</Stack>
 				</RadioGroup>
 				<Button
-				colorScheme='teal'
+					colorScheme='teal'
 					loadingText='Searching, keep tab open'
 					isLoading={isSearching}
 					onClick={submitRequest}
 				>
-					{`Search sessions for today & tomorrow`}
+					{isTonight
+						? 'Search for tomorrow'
+						: `Search sessions for today & tomorrow`}
 				</Button>
-				<Text align="center" fontSize="xs">
+				<Text align='center' fontSize='xs'>
 					{isDowntime
-						? 'Finding vacination slots during these hours in hard, try in the evening!'
+						? 'Finding vacination slots during these hours is hard, try in the evening!'
 						: 'Usually takes around 15-20 minutes., or longer, who knows? Persistence is key.'}
 				</Text>
-				<Text align="center" fontSize="xs">
+				<Text align='center' fontSize='xs'>
 					<i>For affirmation you can check out North Goa at 45+</i>
 				</Text>
 			</VStack>
