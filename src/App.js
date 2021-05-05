@@ -9,7 +9,9 @@ import {
 	Link,
 	useColorMode,
 	useColorModeValue,
+	useMediaQuery,
 	useToast,
+	VStack,
 } from '@chakra-ui/react';
 import axios from 'axios';
 import { useState } from 'react';
@@ -29,6 +31,7 @@ function App() {
 	const toast = useToast();
 	const text = useColorModeValue('dark', 'light');
 	const SwitchIcon = useColorModeValue(FaMoon, FaSun);
+	const [isMobile] = useMediaQuery('(max-width: 460px)');
 
 	const fetchLocationsByDistrict = (district_id, date, ageRestriction) => {
 		setIsSearching(true);
@@ -43,23 +46,24 @@ function App() {
 				const { data } = await axios.get(
 					`https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/findByDistrict?district_id=${district_id}&date=${date}`
 				);
-				let foundSessions = data.sessions
-				if(ageRestriction!=='Any'){
-				foundSessions = data.sessions.filter(
-					(session) =>
-						String(session.min_age_limit) === ageRestriction
-				)}
+				let foundSessions = data.sessions;
+				if (ageRestriction !== 'Any') {
+					foundSessions = data.sessions.filter(
+						(session) =>
+							String(session.min_age_limit) === ageRestriction
+					);
+				}
 
 				if (foundSessions.length > 0) {
-						audio.play();
-						clearInterval(intervalId);
-						setIsSearching(false);
-						setSessions(foundSessions);
-						toast({
-							title: `Session found!`,
-							status: 'success',
-							isClosable: true,
-						});
+					audio.play();
+					clearInterval(intervalId);
+					setIsSearching(false);
+					setSessions(foundSessions);
+					toast({
+						title: `Session found!`,
+						status: 'success',
+						isClosable: true,
+					});
 				}
 			} catch (error) {
 				console.log('none found');
@@ -115,19 +119,23 @@ function App() {
 					<SessionByDistrict {...session} />
 				))}
 			</Grid>
-			<Container maxW='container.md'>
+			<VStack maxW='container.md'>
 				{isSearching && (
 					<Alert status='info' marginTop={5}>
 						<AlertIcon />
-						Free tip! If you're a mobile user. Start your search and
-						carry on with your other apps, as long as you don't
-						close the tab you're good. If you're a desktop user then
-						just keep the tab open on the side. Note that you will
-						hear a loud-ish soundtrack when a match is found.
-						Also, you're more likely to find a slot between 5-8.
+						Awesome! You may switch apps now, just leave this open
+						in the background. You will hear a loud-ish soundtrack
+						when a match is found.
+						You're more likely to find a slot between 5-8.
 					</Alert>
 				)}
-			</Container>
+				{!isMobile && (
+					<Alert status='info' marginTop={5}>
+						<AlertIcon />
+						Accessing the mobile version is super convenient.
+					</Alert>
+				)}
+			</VStack>
 			<Flex justify='center' padding={5}>
 				<Link href='https://itsmehul.github.io' isExternal>
 					Made with ♥ by Mehul
